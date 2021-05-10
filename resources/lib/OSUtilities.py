@@ -14,7 +14,7 @@ from urllib.parse import unquote
 
 __addon__      = xbmcaddon.Addon()
 __version__    = __addon__.getAddonInfo('version') # Module version
-__scriptname__ = "XBMC Subtitles Login"
+__scriptname__ = "XBMC Subtitles Unofficial"
 
 BASE_URL_XMLRPC = u"http://api.opensubtitles.org/xml-rpc"
 
@@ -22,8 +22,7 @@ class OSDBServer:
   def __init__( self, *args, **kwargs ):
     self.server = xmlrpc.client.ServerProxy( BASE_URL_XMLRPC, verbose=0 )
     login = self.server.LogIn(__addon__.getSetting( "OSuser" ), __addon__.getSetting( "OSpass" ), "en", "%s_v%s" %(__scriptname__.replace(" ","_"),__version__))
-    if login["status"] == "200 OK":
-      self.osdb_token  = login["token"]
+    self.osdb_token  = login[ "token" ]
 
   def searchsubtitles( self, item):
     if self.osdb_token:
